@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title></title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Tajawal', 'Segoe UI', 'Traditional Arabic', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ffd6e7 0%, #e8c4f5 30%, #fce4d6 60%, #f8d7e8 100%);
+    background-size: 300% 300%;
+    animation: gradientMove 12s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    padding: 20px;
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* ---------- Stage 1 ---------- */
+  .stage-one {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .stage-one.hidden {
+    opacity: 0;
+    transform: scale(0.85);
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .main-text {
+    font-size: clamp(1.6rem, 6vw, 3rem);
+    font-weight: 700;
+    color: #7a3b6e;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 182, 213, 0.6);
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
+  }
+
+  .big-heart {
+    font-size: clamp(4rem, 16vw, 7rem);
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    animation: heartPulse 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 8px 22px rgba(255, 90, 140, 0.55));
+  }
+
+  @keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .big-heart:hover {
+    transform: scale(1.18);
+    filter: drop-shadow(0 10px 28px rgba(255, 60, 120, 0.75));
+  }
+
+  .big-heart:active {
+    transform: scale(0.95);
+  }
+
+  .small-line {
+    margin-top: 22px;
+    font-size: clamp(0.85rem, 3vw, 1.05rem);
+    font-weight: 500;
+    color: #8f5480;
+    text-shadow: 0 1px 6px rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.3px;
+  }
+
+  /* ---------- Stage 2 ---------- */
+  .stage-two {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .stage-two.show {
+    display: flex;
+  }
+
+  .love-message {
+    font-size: clamp(1.25rem, 4.5vw, 2.2rem);
+    font-weight: 700;
+    color: #a03a7a;
+    text-shadow: 0 3px 16px rgba(255, 255, 255, 0.85), 0 0 40px rgba(255, 160, 200, 0.7);
+    line-height: 1.7;
+    padding: 0 8px;
+    opacity: 0;
+    transform: scale(0.6);
+    will-change: opacity, transform;
+    word-break: break-word;
+  }
+
+  .love-message.animate-in {
+    animation: fadeScaleIn 1s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  }
+
+  @keyframes fadeScaleIn {
+    0% { opacity: 0; transform: scale(0.6) translateY(12px); filter: blur(4px); }
+    60% { opacity: 1; filter: blur(0); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+  }
+
+  .question-box {
+    width: 100%;
+    max-width: 480px;
+    padding: 24px 20px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 8px 32px rgba(200, 120, 180, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    transition: opacity 0.55s ease 0.3s, transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s;
+  }
+
+  .question-box.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .question-text {
+    font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+    font-weight: 700;
+    color: #7a3b6e;
+    line-height: 1.7;
+    text-shadow: 0 1px 6px rgba(255, 255, 255, 0.7);
+  }
+
+  .answer-input {
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 40px;
+    border: 1.5px solid rgba(214, 127, 212, 0.4);
+    background: rgba(255, 255, 255, 0.65);
+    font-family: inherit;
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    color: #6b2f5e;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    text-align: right;
+    direction: rtl;
+  }
+
+  .answer-input::placeholder {
+    color: #b487a8;
+    opacity: 0.85;
+  }
+
+  .answer-input:focus {
+    border-color: #d67fd4;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 4px rgba(214, 127, 212, 0.18);
+  }
+
+  .send-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff8fb1 0%, #d67fd4 50%, #ff9ec4 100%);
+    background-size: 200% 200%;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(214, 127, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background-position 0.6s ease, opacity 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    outline: none;
+  }
+
+  .send-btn:hover:not(:disabled) {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 12px 32px rgba(214, 127, 212, 0.6);
+    background-position: 100% 50%;
+  }
+
+  .send-btn:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+
+  .send-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(0.2);
+  }
+
+  .send-btn .spinner {
+    display: none;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .send-btn.loading .heart-icon { display: none; }
+  .send-btn.loading .spinner { display: block; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .status-msg {
+    font-size: clamp(0.8rem, 2.8vw, 0.92rem);
+    font-weight: 600;
+    min-height: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    text-align: center;
+    padding: 0 8px;
+  }
+
+  .status-msg.show { opacity: 1; }
+  .status-msg.success { color: #2e8b57; }
+  .status-msg.error { color: #c0392b; }
+
+  /* Honeypot field (hidden) */
+  .hp-field {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+  }
+
+  /* ---------- Hearts & Glows ---------- */
+  .heart {
+    position: absolute;
+    pointer-events: none;
+    font-size: 22px;
+    opacity: 0;
+    z-index: 1;
+    will-change: transform, opacity;
+    user-select: none;
+  }
+
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow1 { width: 340px; height: 340px; background: #ffb6d9; top: -80px; right: -60px; animation: pulseGlow 9s ease-in-out infinite; }
+  .glow2 { width: 300px; height: 300px; background: #d7b3f0; bottom: -90px; left: -70px; animation: pulseGlow 11s ease-in-out infinite reverse; }
+  .glow3 { width: 220px; height: 220px; background: #ffe4c9; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: pulseGlow 13s ease-in-out infinite; }
+
+  @keyframes pulseGlow {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.25); opacity: 0.65; }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 14px; }
+    .main-text { margin-bottom: 22px; }
+    .question-box { padding: 18px 14px; border-radius: 22px; }
+    .send-btn { width: 54px; height: 54px; font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="glow glow1"></div>
+  <div class="glow glow2"></div>
+  <div class="glow glow3"></div>
+
+  <div class="container">
+
+    <!-- Stage 1 -->
+    <div class="stage-one" id="stageOne">
+      <div class="main-text">دوثي هنا يبت😔</div>
+      <div class="big-heart" id="bigHeart" role="button" tabindex="0" aria-label="❤️">❤️</div>
+      <div class="small-line">نفثي احضنك بث حرامممم😔</div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-two" id="stageTwo">
+      <div class="love-message" id="loveMessage">حبككككككككككككككككك يمرييييووووووووووووم😔🌹🫶</div>
+
+      <div class="question-box" id="questionBox">
+        <div class="question-text">انا اي بنثبالك 🙂(متخافيث مث هتتبعت ليا هتتبعت ل GitHub)</div>
+
+        <!-- Honeypot -->
+        <input type="text" class="hp-field" id="hpField" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <input type="text" class="answer-input" id="answerInput" placeholder="ايييي انطقييي يبت😔" maxlength="500" autocomplete="off">
+
+        <button class="send-btn" id="sendBtn" aria-label="إرسال">
+          <span class="heart-icon">❤️</span>
+          <span class="spinner"></span>
+        </button>
+
+        <div class="status-msg" id="statusMsg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  (function() {
+    // ============================================================
+    //  إعدادات بوت تليجرام
+    //  ⚠️ التوكن مكشوف في الواجهة — أي زائر يقدر يشوفه.
+    //     يُفضّل بشدة عمل revoke بعد التجربة أو نقل الإرسال لـ Backend.
+    // ============================================================
+    const TELEGRAM_BOT_TOKEN = '8802285032:AAHJY1z6L74VM8uDhNktIcP0oehumA7br98';
+    const TELEGRAM_CHAT_ID   = '6883520401';
+    // ============================================================
+
+    // ---------- Elements ----------
+    const stageOne   = document.getElementById('stageOne');
+    const stageTwo   = document.getElementById('stageTwo');
+    const bigHeart   = document.getElementById('bigHeart');
+    const loveMsg    = document.getElementById('loveMessage');
+    const questionBox= document.getElementById('questionBox');
+    const answerInput= document.getElementById('answerInput');
+    const sendBtn    = document.getElementById('sendBtn');
+    const statusMsg  = document.getElementById('statusMsg');
+    const hpField    = document.getElementById('hpField');
+
+    // ---------- State ----------
+    let opened = false;
+    let sending = false;
+    let lastSentAt = 0;
+    const COOLDOWN_MS = 15000;
+
+    // ---------- Floating Hearts ----------
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const symbols = ['❤️', '💕', '💗', '💖', '🌸', '🩷', '💞', '🌹'];
+      heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      heart.style.left = (Math.random() * 100) + '%';
+      heart.style.top  = (50 + Math.random() * 40) + '%';
+      heart.style.fontSize = (14 + Math.random() * 22) + 'px';
+
+      const duration = 3.5 + Math.random() * 3.5;
+      const delay    = Math.random() * 1.5;
+      const drift    = (Math.random() - 0.5) * 80;
+
+      heart.animate(
+        [
+          { transform: `translate(0,0) scale(0.5) rotate(0deg)`, opacity: 0 },
+          { transform: `translate(${drift}px,-110px) scale(0.95) rotate(10deg)`, opacity: 0.9, offset: 0.15 },
+          { transform: `translate(${drift * 1.6}px,-220px) scale(1.2) rotate(25deg)`, opacity: 0 }
+        ],
+        { duration: duration * 1000, delay: delay * 1000, easing: 'ease-out', fill: 'forwards' }
+      );
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), (duration + delay) * 1000 + 200);
+    }
+
+    let heartsInterval = null;
+    function startHearts() {
+      if (heartsInterval) return;
+      for (let i = 0; i < 8; i++) setTimeout(createHeart, i * 140);
+      heartsInterval = setInterval(createHeart, 520);
+    }
+
+    // ---------- Open the heart ----------
+    function openHeart() {
+      if (opened) return;
+      opened = true;
+
+      stageOne.classList.add('hidden');
+      stageTwo.classList.add('show');
+
+      void loveMsg.offsetWidth;
+      loveMsg.classList.add('animate-in');
+
+      startHearts();
+
+      setTimeout(() => questionBox.classList.add('show'), 350);
+      setTimeout(() => answerInput.focus({ preventScroll: true }), 900);
+    }
+
+    bigHeart.addEventListener('click', openHeart);
+    bigHeart.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openHeart(); }
+    });
+
+    // ---------- Status helpers ----------
+    function setStatus(text, type) {
+      statusMsg.textContent = text;
+      statusMsg.classList.remove('success', 'error');
+      if (type) statusMsg.classList.add(type);
+      statusMsg.classList.add('show');
+    }
+    function clearStatus() {
+      statusMsg.classList.remove('show', 'success', 'error');
+      statusMsg.textContent = '';
+    }
+
+    // ---------- Send via Telegram ----------
+    async function handleSend() {
+      if (sending) return;
+
+      if (hpField.value.trim() !== '') return; // honeypot
+
+      const answer = answerInput.value.trim();
+      if (!answer) {
+        setStatus('اكتبي إجابتك الأول 🙂', 'error');
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastSentAt < COOLDOWN_MS) {
+        const remaining = Math.ceil((COOLDOWN_MS - (now - lastSentAt)) / 1000);
+        setStatus(`استني ${remaining} ثانية وحاولي تاني 🙂`, 'error');
+        return;
+      }
+
+      sending = true;
+      sendBtn.disabled = true;
+      sendBtn.classList.add('loading');
+      clearStatus();
+
+      try {
+        const res = await fetch(
+          `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: answer
+            })
+          }
+        );
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.description || 'Telegram error');
+        }
+
+        lastSentAt = Date.now();
+        setStatus('اي حاجه من مريومتشي حلوه 🙄', 'success');
+        answerInput.value = '';
+      } catch (err) {
+        console.error('Telegram send error:', err);
+        setStatus('حصل خطأ في الإرسال، جربي تاني بعد شوية 😔', 'error');
+      } finally {
+        sending = false;
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('loading');
+      }
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    answerInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
+    });
+  })();
+</script>
+</body>
+</html>
